@@ -8,6 +8,11 @@ pipeline {
              choice(choices: ['10','20','30'], description: 'Throughput', name: 'throughput')
             }
     stages {
+     stage('Pre-Checkout') {
+             steps {
+                    sh "git config http.sslVerify false"
+                }
+           }
         stage("Build Maven") {
             steps {
                 sh 'mvn -B clean package'
