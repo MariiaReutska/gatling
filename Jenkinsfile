@@ -8,20 +8,23 @@ pipeline {
              choice(choices: ['10','20','30'], description: 'Throughput', name: 'throughput')
             }
     stages {
-     stage('Pre-Checkout') {
-             steps {
-                    sh "git config http.sslVerify false"
-                }
-           }
-        stage("Build Maven") {
+            stage("Build Maven") {
             steps {
-                sh 'mvn -B clean package'
-            }
-        }
+             script {
+                  sh """#!/bin/bash mvn -B clean package"""
+
+                     }
+                  }
+          }
         stage("Run Gatling") {
-            steps {
-               sh 'mvn gatling:test -Dsimulation=${simulation} -Dusers=${users} -Drampup=${rampup} -Dthroughput=${throughput}'
-            }
+             steps {
+              script {
+                                sh """#!/bin/bash
+                                mvn gatling:test -Dsimulation=${simulation}
+                                -Dusers=${users} -Drampup=${rampup} -Dthroughput=${throughput}
+                                 """
+                      }
+                    }
             post {
                 always {
                     gatlingArchive()
