@@ -20,8 +20,7 @@ pipeline {
         }
         stage("Run Gatling") {
             steps {
-                sh 'mvn gatling:test -Dsimulation=${simulation} -Dusers=${users} -Drampup=${rampup}
-                -Dthroughput=${throughput}'
+               sh 'mvn gatling:test -Dsimulation=${simulation} -Dusers=${users} -Drampup=${rampup} -Dthroughput=${throughput}'
             }
             post {
                 always {
